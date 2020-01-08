@@ -1,8 +1,10 @@
 const path = require("path");
-const webpackNodeExternals = require('webpack-node-externals');
+const webpackNodeExternals = require("webpack-node-externals");
 
 module.exports = {
   target: "node",
+
+  mode: process.env.mode || "development",
 
   entry: ["@babel/polyfill", "./server.js"],
 

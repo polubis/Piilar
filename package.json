@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^5.2.1",
+    "react-helmet-async": "^1.0.4",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2"
   },

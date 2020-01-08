@@ -3,6 +3,8 @@ const path = require("path");
 module.exports = {
   target: "node",
 
+  mode: process.env.mode || 'development',
+
   entry: ["./src/client.js"],
 
   output: {

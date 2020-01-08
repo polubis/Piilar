@@ -1,29 +1,32 @@
-import express from 'express';
-import bodyParser from 'body-parser';
+import express from "express";
+import bodyParser from "body-parser";
 
-import React from 'react';
-import ReactDomServer from 'react-dom/server';
-import { StaticRouter } from 'react-router';
-import { Helmet } from 'react-helmet';
+import React from "react";
+import ReactDomServer from "react-dom/server";
+import { StaticRouter } from "react-router";
+import { HelmetProvider } from "react-helmet-async";
 
-import App from './src/app';
+import App from "./src/app";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(express.static('build/public'));
+app.use(express.static("build/public"));
 
-app.get('*', (req, res) => {
-  const context = {};
+const staticRouterContext = {};
+const helmetContext = {};
 
+app.get("*", (req, res) => {
   const content = ReactDomServer.renderToString(
-    <StaticRouter location={req.url} context={content}>
-      <App />
-    </StaticRouter>
+    <HelmetProvider context={helmetContext}>
+      <StaticRouter location={req.url} context={staticRouterContext}>
+        <App />
+      </StaticRouter>
+    </HelmetProvider>
   );
 
-  const helmet = Helmet.renderStatic();
+  const { helmet } = helmetContext;
 
   const html = `
     <html>
@@ -32,9 +35,7 @@ app.get('*', (req, res) => {
         ${helmet.title.toString()}
       </head>
       <body>
-        <div id="root">
-          ${content}
-        </div>
+        <div id="root">${content}</div>
         <script src="client_bundle.js"></script>
       </body>
     </html>
