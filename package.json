@@ -6,7 +6,8 @@
     "dev:client": "webpack --config webpack.client.js --watch",
     "dev:server": "webpack --config webpack.server.js --watch",
     "dev:start": "nodemon --watch build --exec node build/bundle.js",
-    "dev": "npm-run-all --parallel dev:*"
+    "dev": "npm-run-all --parallel dev:*",
+    "build": "webpack --config webpack.client.js && webpack --config webpack.server.js"
   },
   "repository": {
     "type": "git",
