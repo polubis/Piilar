@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 
 class Home extends React.Component {
   state = {
@@ -9,9 +10,18 @@ class Home extends React.Component {
     this.setState({ counter: this.state.counter + 1 });
   };
 
+  head = () => {
+    return (
+      <Helmet>
+        <title>Home page</title>
+      </Helmet>
+    );
+  };
+
   render() {
     return (
       <div>
+        {this.head()}
         {this.state.counter}
         <button onClick={this.incrementCounter}>Increment</button>
       </div>
