@@ -1,6 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
+import "./Home.scss";
+
 class Home extends React.Component {
   state = {
     counter: 0
@@ -23,7 +25,9 @@ class Home extends React.Component {
       <div>
         {this.head()}
         {this.state.counter}
-        <button onClick={this.incrementCounter}>Increment</button>
+        <button className="button" onClick={this.incrementCounter}>
+          <span>Increment</span>
+        </button>
       </div>
     );
   }

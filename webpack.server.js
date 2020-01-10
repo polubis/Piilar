@@ -2,6 +2,7 @@ const path = require("path");
 const webpackNodeExternals = require("webpack-node-externals");
 
 module.exports = {
+  name: "server",
   target: "node",
 
   mode: process.env.mode || "development",
@@ -16,11 +17,8 @@ module.exports = {
 
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        loader: "babel-loader",
-        exclude: "/node_modules/"
-      }
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.scss$/, loader: "ignore-loader" }
     ]
   },
 
