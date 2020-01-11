@@ -10,7 +10,11 @@ module.exports = {
 
   mode: process.env.mode || "development",
 
-  entry: ["./src/client.js"],
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", "json"]
+  },
+
+  entry: ["./src/client.tsx"],
 
   output: {
     filename: "[name].js",
@@ -20,6 +24,12 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        exclude: /node_modules/,
+      },
+
       {
         test: /\.js$/,
         loader: "babel-loader",
@@ -46,7 +56,7 @@ module.exports = {
     }
   },
 
-  devtool: "cheap-module-source-map",
+  devtool: "inline-source-map",
 
   plugins: [
     new CleanWebpackPlugin(),

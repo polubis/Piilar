@@ -1,6 +1,12 @@
 import React from "react";
 
-class Html extends React.Component {
+interface Props {
+  children: string;
+  scripts: string[];
+  stylesheets: string[];
+}
+
+class Html extends React.Component<Props> {
   render() {
     const { children, scripts, stylesheets } = this.props;
 

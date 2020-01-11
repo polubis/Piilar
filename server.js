@@ -6,7 +6,7 @@ import { StaticRouter } from "react-router";
 import { HelmetProvider } from "react-helmet-async";
 
 import App from "./src/App";
-import Html from "./src/components/ssr/Html";
+import Html from "./src/Html";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

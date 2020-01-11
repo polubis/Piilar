@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 
 import "./Home.scss";
 
-class Home extends React.Component {
+class Home extends React.Component<any> {
   state = {
     counter: 0
   };

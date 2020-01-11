@@ -9,6 +9,10 @@ module.exports = {
 
   entry: ["@babel/polyfill", "./server.js"],
 
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", "json"]
+  },
+
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "build"),
@@ -17,6 +21,7 @@ module.exports = {
 
   module: {
     rules: [
+      { test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/, },
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
       { test: /\.scss$/, loader: "ignore-loader" }
     ]
