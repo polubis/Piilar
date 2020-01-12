@@ -5,18 +5,18 @@ import ReactDomServer from "react-dom/server";
 import { StaticRouter } from "react-router";
 import { HelmetProvider } from "react-helmet-async";
 
-import App from "./src/App";
-import Html from "./src/Html";
+import App from "./App";
+import Html from "./html";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static("build/public"));
 
-const staticRouterContext = {};
-const helmetContext = {};
-
 app.get("*", (req, res) => {
+  const staticRouterContext = {};
+  const helmetContext = {};
+
   const scripts = ["vendor.js", "main.js"];
   const stylesheets = ["main.css"];
 
@@ -31,6 +31,16 @@ app.get("*", (req, res) => {
   const html = ReactDomServer.renderToStaticMarkup(
     <Html children={appMarkup} scripts={scripts} stylesheets={stylesheets} />
   );
+
+  // TODO
+  // Route based code splitting
+  // Code splitting at all
+  // Calling API
+  // Authorization and authorization
+  // Fetch basic data
+  // Refactor package.json scripts
+  // Refactor 2 webpacks config into 1
+  // Add streams
 
   res.send(`<!doctype html>${html}`);
 });

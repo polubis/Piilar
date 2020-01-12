@@ -3,64 +3,75 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
-module.exports = {
-  name: "client",
-  target: "web",
+module.exports = () => {
+  const mode = process.env.mode || "development";
 
-  mode: process.env.mode || "development",
+  const isDev = mode === "development";
 
-  resolve: {
-    extensions: [".ts", ".tsx", ".js", "json"]
-  },
+  return {
+    name: "client",
+    target: "web",
 
-  entry: ["./src/client.tsx"],
+    mode,
 
-  output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, "build/public"),
-    publicPath: "/build/public"
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        exclude: /node_modules/,
+    resolve: {
+      extensions: [".ts", ".tsx", ".js", "json"],
+      alias: {
+        styles: path.resolve(__dirname, 'src/styles')
       },
+      plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })]
+    },
 
-      {
-        test: /\.js$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
-      },
+    entry: ["./src/client.tsx"],
 
-      {
-        test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
-        exclude: /node_modules/
-      }
-    ]
-  },
+    output: {
+      filename: "[name].js",
+      path: path.resolve(__dirname, "build/public"),
+      publicPath: "/build/public"
+    },
 
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
-          chunks: "all"
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: "ts-loader",
+          exclude: /node_modules/
+        },
+
+        {
+          test: /\.js$/,
+          loader: "babel-loader",
+          exclude: /node_modules/
+        },
+
+        {
+          test: /\.scss$/,
+          use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+          exclude: /node_modules/
+        }
+      ]
+    },
+
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendor",
+            chunks: "all"
+          }
         }
       }
-    }
-  },
+    },
 
-  devtool: "inline-source-map",
+    devtool: isDev && "inline-source-map",
 
-  plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
-    new BundleAnalyzerPlugin()
-  ]
+    plugins: [
+      new CleanWebpackPlugin(),
+      new MiniCssExtractPlugin(),
+      isDev && new BundleAnalyzerPlugin()
+    ]
+  };
 };

@@ -1,5 +1,6 @@
 const path = require("path");
 const webpackNodeExternals = require("webpack-node-externals");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   name: "server",
@@ -7,10 +8,11 @@ module.exports = {
 
   mode: process.env.mode || "development",
 
-  entry: ["@babel/polyfill", "./server.js"],
+  entry: ["@babel/polyfill", "./src/server.tsx"],
 
   resolve: {
-    extensions: [".ts", ".tsx", ".js", "json"]
+    extensions: [".ts", ".tsx", ".js", "json"],
+    plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })]
   },
 
   output: {
@@ -21,8 +23,8 @@ module.exports = {
 
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/, },
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ },
+      { test: /\.js$/, loader: "babel-loader", exclude: /node_modules/ },
       { test: /\.scss$/, loader: "ignore-loader" }
     ]
   },
