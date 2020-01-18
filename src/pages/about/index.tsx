@@ -1,9 +1,9 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-import "./Home.scss";
+import "./index.scss";
 
-class Home extends React.Component<any> {
+class About extends React.Component<any> {
   state = {
     counter: 0
   };
@@ -15,7 +15,7 @@ class Home extends React.Component<any> {
   head = () => {
     return (
       <Helmet>
-        <title>Home page</title>
+        <title>About page</title>
       </Helmet>
     );
   };
@@ -24,13 +24,10 @@ class Home extends React.Component<any> {
     return (
       <div>
         {this.head()}
-        {this.state.counter}
-        <button className="button" onClick={this.incrementCounter}>
-          <span>Increment</span>
-        </button>
+        About
       </div>
     );
   }
 }
 
-export default Home;
+export default About;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 
-import "./Login.scss";
+import "./index.scss";
 
 class Login extends React.Component<any> {
   state = {

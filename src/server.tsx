@@ -41,6 +41,7 @@ app.get("*", (req, res) => {
   // Refactor package.json scripts
   // Refactor 2 webpacks config into 1
   // Add streams
+  // Finish register page feature
 
   res.send(`<!doctype html>${html}`);
 });
