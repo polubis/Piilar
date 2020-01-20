@@ -1,54 +1,45 @@
-const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = () => {
-  const mode = process.env.mode || "development";
+const getBaseConfig = require('./webpack.base');
 
-  const isDev = mode === "development";
+module.exports = (_, { mode }) => {
+  const [dev, prod] = ['development', 'production'];
 
-  return {
-    name: "client",
-    target: "web",
+  const baseConfig = getBaseConfig(mode);
+
+  const config = {
+    name: 'client',
+
+    devtool: mode === prod ? false : 'inline-source-map',
+
+    target: 'web',
 
     mode,
 
     resolve: {
-      extensions: [".ts", ".tsx", ".js", "json"],
+      ...baseConfig.resolve,
       alias: {
         styles: path.resolve(__dirname, 'src/styles')
-      },
-      plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })]
+      }
     },
 
-    entry: ["./src/client.tsx"],
+    entry: ['./src/client.tsx'],
 
     output: {
-      filename: "[name].js",
-      path: path.resolve(__dirname, "build/public"),
-      publicPath: "/build/public"
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'build/public'),
+      publicPath: '/build/public'
     },
 
     module: {
       rules: [
-        {
-          test: /\.tsx?$/,
-          loader: "ts-loader",
-          exclude: /node_modules/
-        },
-
-        {
-          test: /\.js$/,
-          loader: "babel-loader",
-          exclude: /node_modules/
-        },
-
+        ...baseConfig.module.rules,
         {
           test: /\.scss$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
           exclude: /node_modules/
         }
       ]
@@ -59,19 +50,19 @@ module.exports = () => {
         cacheGroups: {
           commons: {
             test: /[\\/]node_modules[\\/]/,
-            name: "vendor",
-            chunks: "all"
+            name: 'vendor',
+            chunks: 'all'
           }
         }
       }
     },
 
-    devtool: isDev && "inline-source-map",
-
-    plugins: [
-      new CleanWebpackPlugin(),
-      new MiniCssExtractPlugin(),
-      isDev && new BundleAnalyzerPlugin()
-    ]
+    plugins: [new CleanWebpackPlugin(), new MiniCssExtractPlugin()]
   };
+
+  if (mode === prod) {
+    config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
+  }
+
+  return config;
 };

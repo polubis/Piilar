@@ -1,33 +1,32 @@
-const path = require("path");
-const webpackNodeExternals = require("webpack-node-externals");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const path = require('path');
+const webpackNodeExternals = require('webpack-node-externals');
 
-module.exports = {
-  name: "server",
-  target: "node",
+const getBaseConfig = require('./webpack.base');
 
-  mode: process.env.mode || "development",
+module.exports = (_, { mode }) => {
+  const baseConfig = getBaseConfig(mode);
 
-  entry: ["@babel/polyfill", "./src/server.tsx"],
+  return {
+    name: 'server',
 
-  resolve: {
-    extensions: [".ts", ".tsx", ".js", "json"],
-    plugins: [new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })]
-  },
+    target: 'node',
 
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "build"),
-    publicPath: "/build"
-  },
+    mode,
 
-  module: {
-    rules: [
-      { test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ },
-      { test: /\.js$/, loader: "babel-loader", exclude: /node_modules/ },
-      { test: /\.scss$/, loader: "ignore-loader" }
-    ]
-  },
+    entry: ['@babel/polyfill', './src/server.tsx'],
 
-  externals: [webpackNodeExternals()]
+    resolve: baseConfig.resolve,
+
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'build'),
+      publicPath: '/build'
+    },
+
+    module: {
+      rules: [...baseConfig.module.rules, { test: /\.scss$/, loader: 'ignore-loader' }]
+    },
+
+    externals: [webpackNodeExternals()]
+  };
 };

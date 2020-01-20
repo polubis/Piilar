@@ -10,8 +10,14 @@
     "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
-      "pages/*": ["pages/*"],
-    }
+      "pages/*": ["pages/*"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "configFile": "./tslint.json"
+      }
+    ]
   },
   "include": ["src"],
   "exclude": ["node_modules"]

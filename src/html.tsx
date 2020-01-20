@@ -1,14 +1,15 @@
-import React from "react";
+import React from 'react';
 
 interface Props {
   children: string;
   scripts: string[];
   stylesheets: string[];
+  css: string;
 }
 
 class Html extends React.Component<Props> {
   render() {
-    const { children, scripts, stylesheets } = this.props;
+    const { children, scripts, stylesheets, css } = this.props;
 
     return (
       <html>
@@ -17,13 +18,11 @@ class Html extends React.Component<Props> {
           {/* <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" /> */}
 
           <meta charSet="UTF-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
           {stylesheets.map(sheet => (
             <link rel="stylesheet" key={sheet} href={sheet}></link>
           ))}
+          <style id="jss-server-side">{css}</style>
         </head>
         <body>
           <div id="root" dangerouslySetInnerHTML={{ __html: children }}></div>
