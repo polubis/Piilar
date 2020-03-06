@@ -10,7 +10,6 @@ import {
   FormHelperText,
   TextField,
   Theme,
-  createStyles,
   makeStyles
 } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
@@ -22,13 +21,11 @@ import { TaskFormData } from 'models/form-data';
 import { TasksContext } from 'providers/TasksProvider';
 import { Validator as V } from 'shared/utils/validator';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    errorMessage: {
-      color: theme.palette.error.main
-    }
-  })
-);
+const useStyles = makeStyles((theme: Theme) => ({
+  errorMessage: {
+    color: theme.palette.error.main
+  }
+}));
 
 const validationRules = {
   name: (value: string) =>
@@ -123,20 +120,24 @@ const TaskFormModal = ({ taskToEdit, onClose }: Props) => {
   };
 
   return (
-    <Dialog onClose={handleClose} open data-testid='dialog'>
+    <Dialog onClose={handleClose} open data-testid="dialog">
       {isSaving && <ModalLoader />}
 
-      <DialogTitle>{taskToEdit ? `You are editing task ${taskToEdit.name}` : 'Create new task'}</DialogTitle>
+      <DialogTitle>
+        {taskToEdit ? `You are editing task ${taskToEdit.name}` : 'Create new task'}
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText>Populate required fields and {taskToEdit ? 'edit' : 'create'} your task.</DialogContentText>
+        <DialogContentText>
+          Populate required fields and {taskToEdit ? 'edit' : 'create'} your task.
+        </DialogContentText>
 
-        <FormControl fullWidth margin='dense'>
+        <FormControl fullWidth margin="dense">
           <TextField
-            id='name'
-            label='Name'
-            name='name'
-            variant='outlined'
-            autoComplete='off'
+            id="name"
+            label="Name"
+            name="name"
+            variant="outlined"
+            autoComplete="off"
             autoFocus
             value={formData.name}
             onChange={handleChange}
@@ -145,21 +146,23 @@ const TaskFormModal = ({ taskToEdit, onClose }: Props) => {
         </FormControl>
 
         <Box paddingTop={1}>
-          <FormControl fullWidth margin='dense'>
+          <FormControl fullWidth margin="dense">
             <TextField
-              id='description'
-              label='Description'
-              name='description'
-              variant='outlined'
-              aria-describedby='description-text'
-              rowsMax='4'
+              id="description"
+              label="Description"
+              name="description"
+              variant="outlined"
+              aria-describedby="description-text"
+              rowsMax="4"
               value={formData.description}
               onChange={handleChange}
             />
             {errors.description ? (
               <FormHelperText className={classes.errorMessage}>{errors.description}</FormHelperText>
             ) : (
-              <FormHelperText id='description-text'>Will be needed later for better understanding purposes.</FormHelperText>
+              <FormHelperText id="description-text">
+                Will be needed later for better understanding purposes.
+              </FormHelperText>
             )}
           </FormControl>
         </Box>
@@ -168,9 +171,9 @@ const TaskFormModal = ({ taskToEdit, onClose }: Props) => {
           <ColorPicker
             value={formData.theme.color}
             onChange={handleThemeChange}
-            label='Font'
-            name='color'
-            helperText='This color will be used to style task font color.'
+            label="Font"
+            name="color"
+            helperText="This color will be used to style task font color."
           />
         </Box>
 
@@ -178,17 +181,17 @@ const TaskFormModal = ({ taskToEdit, onClose }: Props) => {
           <ColorPicker
             value={formData.theme.background}
             onChange={handleThemeChange}
-            label='Background'
-            name='background'
-            helperText='This color will be used to style task background.'
+            label="Background"
+            name="background"
+            helperText="This color will be used to style task background."
           />
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button color='primary' onClick={handleClose}>
+        <Button color="primary" onClick={handleClose}>
           Cancel
         </Button>
-        <Button color='primary' onClick={handleSubmit} disabled={isFormInvalid(errors) || isSaving}>
+        <Button color="primary" onClick={handleSubmit} disabled={isFormInvalid(errors) || isSaving}>
           Submit
         </Button>
       </DialogActions>

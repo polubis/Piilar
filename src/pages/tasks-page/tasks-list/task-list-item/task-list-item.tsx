@@ -1,6 +1,6 @@
 import { Box, Chip, Collapse, IconButton, Menu, MenuItem, Typography } from '@material-ui/core';
 import { TaskEntity, TaskStatusEntity } from 'models/entities';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -12,56 +12,54 @@ import MoreIcon from '@material-ui/icons/MoreHoriz';
 import React from 'react';
 import { SortableElement } from 'react-sortable-hoc';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-      flexFlow: 'column',
-      alignItems: 'flex-start',
-      padding: theme.spacing(1.5, 1, 0, 2.5),
-      borderBottom: `1px solid ${theme.palette.grey[400]}`
-    },
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    display: 'flex',
+    flexFlow: 'column',
+    alignItems: 'flex-start',
+    padding: theme.spacing(1.5, 1, 0, 2.5),
+    borderBottom: `1px solid ${theme.palette.grey[400]}`
+  },
 
-    header: {
-      display: 'flex',
-      width: '100%',
-      marginBottom: theme.spacing(1)
-    },
+  header: {
+    display: 'flex',
+    width: '100%',
+    marginBottom: theme.spacing(1)
+  },
 
-    toolbox: {
-      marginLeft: 'auto',
-      flexShrink: 0
-    },
+  toolbox: {
+    marginLeft: 'auto',
+    flexShrink: 0
+  },
 
-    taskStatusWrapper: {
-      width: 0
-    },
+  taskStatusWrapper: {
+    width: 0
+  },
 
-    taskStatus: {
-      margin: '5px 0 0 auto'
-    },
+  taskStatus: {
+    margin: '5px 0 0 auto'
+  },
 
-    blankTaskStatus: {
-      color: theme.palette.grey[500]
-    },
+  blankTaskStatus: {
+    color: theme.palette.grey[500]
+  },
 
-    rotated: {
-      transform: 'rotate(180deg)'
-    },
+  rotated: {
+    transform: 'rotate(180deg)'
+  },
 
-    menuItem: {
-      '& svg': {
-        marginRight: theme.spacing(1.5),
-        width: '22px',
-        height: '22px',
+  menuItem: {
+    '& svg': {
+      marginRight: theme.spacing(1.5),
+      width: '22px',
+      height: '22px',
 
-        '&:last-of-type': {
-          transform: 'translateY(-1.5px)'
-        }
+      '&:last-of-type': {
+        transform: 'translateY(-1.5px)'
       }
     }
-  })
-);
+  }
+}));
 
 interface Props extends ManagableListInjectedProps {
   index: number;

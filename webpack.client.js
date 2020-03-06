@@ -1,21 +1,20 @@
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 const getBaseConfig = require('./webpack.base');
 
 module.exports = (_, { mode }) => {
   const [dev, prod] = ['development', 'production'];
+  const isProd = mode === prod;
 
   const baseConfig = getBaseConfig(mode);
 
   const config = {
-    name: 'client',
-
-    devtool: mode === prod ? false : 'inline-source-map',
-
-    target: 'web',
+    devtool: isProd ? false : 'inline-source-map',
 
     mode,
 
@@ -47,21 +46,28 @@ module.exports = (_, { mode }) => {
 
     optimization: {
       splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendor',
-            chunks: 'all'
-          }
-        }
+        chunks: 'all',
+        name: 'vendor'
       }
     },
 
-    plugins: [new CleanWebpackPlugin(), new MiniCssExtractPlugin()]
+    plugins: [new MiniCssExtractPlugin()]
   };
 
-  if (mode === prod) {
-    config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
+  if (isProd) {
+    config.plugins = [
+      ...config.plugins,
+      // new BundleAnalyzerPlugin(),
+      // https://github.com/webpack-contrib/compression-webpack-plugin
+      new CompressionWebpackPlugin({
+        filename: '[path].br',
+        algorithm: 'brotliCompress',
+        test: /\.(js)$/,
+        threshold: 10240, // Only files bigger than this size will be processed
+        minRatio: 0.8, // Only assets that compress better than this ratio are processed,
+        deleteOriginalAssets: true // uncomment when BundleAnalyzerPlugin is used
+      }),
+    ];
   }
 
   return config;

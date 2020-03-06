@@ -1,4 +1,4 @@
-import { Box, Theme, createStyles, makeStyles } from '@material-ui/core';
+import { Box, Theme, makeStyles } from '@material-ui/core';
 import React, { useMemo } from 'react';
 import { TaskEntity, TaskStatusEntity } from 'models/entities';
 
@@ -6,30 +6,28 @@ import ManagableList from 'shared/hoc/ManagableList';
 import SortableList from 'shared/hoc/SortableList';
 import TaskListItem from './task-list-item/task-list-item';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      boxShadow: '0 3px 6px rgba(0,0,0,.14)',
-      padding: 0
+const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    boxShadow: '0 3px 6px rgba(0,0,0,.14)',
+    padding: 0
+  },
+
+  loaders: {
+    '& div': {
+      background: theme.palette.grey[300],
+      width: '100%',
+      height: '40px'
     },
 
-    loaders: {
-      '& div': {
-        background: theme.palette.grey[300],
-        width: '100%',
-        height: '40px'
-      },
+    '& div:not(:last-of-type)': {
+      marginBottom: theme.spacing(2)
+    },
 
-      '& div:not(:last-of-type)': {
-        marginBottom: theme.spacing(2)
-      },
-
-      '& div:nth-child(2)': {
-        height: '250px'
-      }
+    '& div:nth-child(2)': {
+      height: '250px'
     }
-  })
-);
+  }
+}));
 
 interface Props {
   tasks: TaskEntity[];
