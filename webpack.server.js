@@ -13,6 +13,7 @@ module.exports = (_, { mode }) => {
 
     mode,
 
+    // This will emulate a full ES2015+ environment (no < Stage 4 proposals) 
     entry: ['@babel/polyfill', './src/server.tsx'],
 
     resolve: baseConfig.resolve,
@@ -28,5 +29,6 @@ module.exports = (_, { mode }) => {
     },
 
     externals: [webpackNodeExternals()]
+    // Removes node_modules from backend code
   };
 };

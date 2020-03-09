@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
@@ -11,17 +11,18 @@ import Html from './html';
 import theme from './theme';
 
 const PORT = process.env.PORT || 3000;
+const MODE = process.env.NODE_ENV;
 
 const app = express();
 
 app.get('*.js', (req, res, next) => {
-  if (req.header('Accept-Encoding').includes('br')) {
+  if (MODE === 'production' && req.header('Accept-Encoding').includes('br')) {
     req.url = req.url + '.br';
     res.set('Content-Encoding', 'br');
     res.set('Content-Type', 'application/javascript; charset=UTF-8');
-
-    next();
   }
+
+  next();
 });
 
 app.use(express.static('build/public'));
@@ -31,8 +32,8 @@ app.get('*', (req, res) => {
   const staticRouterContext = {};
   const helmetContext = {};
 
-  const scripts = ['vendor.js', 'main.js'];
   const stylesheets = ['main.css'];
+  const scripts = ['vendor.js', 'main.js'];
 
   const appMarkup = ReactDomServer.renderToString(
     sheets.collect(

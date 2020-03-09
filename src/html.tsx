@@ -15,7 +15,6 @@ class Html extends React.Component<Props> {
       <html>
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
           <style id="jss-server-side">{css}</style>
           {stylesheets.map(sheet => (
             <link rel="stylesheet" key={sheet} href={sheet}></link>
